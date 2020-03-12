@@ -9,7 +9,7 @@ app.use((req, res, next) => {
           res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE, PATCH');
           next();
       });
-const routes = require( './routes/routes.js' )
+const routes = require( '../routes/routes.js' )
 const morgan = require('morgan')
 const moment = require ('moment')
 require('dotenv').config()
