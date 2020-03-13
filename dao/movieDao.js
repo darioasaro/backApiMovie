@@ -8,11 +8,23 @@ const db = require("../config/connection");
  * deleteMovie();
  */
 
-exports.getAll = () => {
+exports.getAll = ( callback ) => {
   let sql = "SELECT * FROM movies WHERE deleted_at IS null";
+  let response;
   db.connection.query(sql, (err, rows) => {
-    if (err) throw err;
-    res.json({ movies: rows });
+   
+    if (err) {
+      console.log('error',err);
+      throw err
+    } 
+     // console.log('rows',rows)
+    response =  rows
+    
+    console.log('responseDao',response)
+    
+    
+    return callback( err , response)
+    
   });
 };
 

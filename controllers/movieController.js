@@ -1,7 +1,11 @@
 const daoMovie = require('../dao/movieDao.js')
 exports.index = (req, res )=>{
-    let movies = daoMovie.getAll()
-    res.json({'movies' : movies});
+    daoMovie.getAll((err, movies) => {
+
+        console.log('movies',movies);
+        res.json({'movies' : movies});
+    } )
+    
 }
 
 exports.store = (req, res)=>{
