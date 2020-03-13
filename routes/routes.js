@@ -1,3 +1,1 @@
- module.exports = routes = ( app ) => {
-    
-  }
+module.exports = routes = app => {};
