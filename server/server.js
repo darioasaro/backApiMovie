@@ -2,6 +2,7 @@
 const express = require('express')
 const app = express()
 const port = 3000
+require('dotenv').config()
 const db = require('../config/connection.js')
 app.use((req, res, next) => {
           res.header('Access-Control-Allow-Origin', '*');
@@ -13,7 +14,6 @@ app.use((req, res, next) => {
 const routes = require( '../routes/routes.js' )
 const morgan = require('morgan')
 const moment = require ('moment')
-require('dotenv').config()
 const process = require('process')
 const bodyParser = require('body-parser');
 const aplicacion = express.static(__dirname + '/public');
