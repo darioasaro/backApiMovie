@@ -2,7 +2,7 @@ const daoMovie = require('../dao/movieDao.js')
 exports.index = (req, res )=>{
     daoMovie.getAll((err, movies) => {
 
-        console.log('movies',movies);
+        //console.log('movies',movies);
         res.json({'movies' : movies});
     } )
     
@@ -12,7 +12,7 @@ exports.store = (req, res)=>{
     let {id_api, original_title, backdrop_path, poster_path, overview, vote_average, vote_count} = req.body;
     let created = time();
     try{
-        if(!isExistMovie(id_api)){
+        if(isExistMovie(id_api)){
             movie1 = {
                 id_api: id_api,
                 original_title : original_title,
@@ -75,15 +75,26 @@ exports.delete= (res,req)=>{
     }
 }
 
-isExistMovie = (id_api)=>{
+isExistMovie = (id_api,res)=>{
     let exist = false
-    let movie = daoMovie.isExist(id_api)
+    let movie= daoMovie.isExist(id_api, (err,cb)=>{
+        console.log('cb',cb);
+        res.json({'cb': cb})
+        console.log('movie', movie);
+        
+    })
+    
     if(movie){
         exist = true
         return exist
     }else{
         return exist
     }
+
+    
+
+
+
 }
 
 time =()=>{

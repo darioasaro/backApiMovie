@@ -20,7 +20,7 @@ exports.getAll = ( callback ) => {
      // console.log('rows',rows)
     response =  rows
     
-    console.log('responseDao',response)
+    //console.log('responseDao',response)
     
     
     return callback( err , response)
@@ -36,19 +36,30 @@ exports.getMovie = id => {
   });
 };
 
-exports.isExist = id_api => {
-  let sql = `SELECT * FROM movies WHERE id_api = ${id_api} AND deleted_at IS null`;
+exports.isExist = (callback) => {
+  
+  let sql = `SELECT * FROM movies WHERE id_api = '${callback}' AND deleted_at IS null`;
+  console.log('sql',sql);
+  let response;
+  
   db.connection.query(sql, (err, rows) => {
-    if (err) throw err;
-    res.json({ movies: rows });
+    if (err) {
+      console.log('err',err);
+      err
+    };
+    response =  rows
+    console.log('rows', response);
+    
+    return callback(err, response)
+    //res.json({ movies: rows });
   });
 };
 
 exports.createMovie = movie => {
-     movie = {
+    let  {
     id_api,
     original_title,
-    backrop_path,
+    backdrop_path,
     poster_path,
     overview,
     vote_average,
@@ -56,14 +67,14 @@ exports.createMovie = movie => {
     created_at,
     deleted_at,
     updated_at
-  };
-  let sql = `INSERT INTO movies (id_api, original_title, backrop_path, poster_path, overview, vote_average, vote_count, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?,?)`;
+  } = movie;
+  let sql = `INSERT INTO movies (id_api, original_title, backdrop_path, poster_path, overview, vote_average, vote_count, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?,?)`;
   db.connection.query(
     sql,
     [
       id_api,
       original_title,
-      backrop_path,
+      backdrop_path,
       poster_path,
       overview,
       vote_average,
@@ -73,7 +84,7 @@ exports.createMovie = movie => {
     ],
     function(err, rows) {
       if (err) throw err;
-      es.json({ movies: rows });
+      res.json({ movies: rows });
     }
   );
 };
