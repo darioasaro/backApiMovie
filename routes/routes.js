@@ -1,5 +1,4 @@
-
- module.exports = routes = ( app ) => {
-    app.use('/api/movies', require( './movies' )),
+module.exports = routes = ( app ) => {
+    app.use('/api/movies', require( './movieRoute' ))
   }
 

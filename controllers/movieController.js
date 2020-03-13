@@ -5,11 +5,11 @@ exports.index = (req, res )=>{
 }
 
 exports.store = (req, res)=>{
-    const {id_api, original_title, backdrop_path, poster_path, overview, vote_average, vote_count} = req.body;
-    const created = time();
+    let {id_api, original_title, backdrop_path, poster_path, overview, vote_average, vote_count} = req.body;
+    let created = time();
     try{
         if(!isExistMovie(id_api)){
-            movie = {
+            movie1 = {
                 id_api: id_api,
                 original_title : original_title,
                 backdrop_path : backdrop_path,
@@ -20,7 +20,7 @@ exports.store = (req, res)=>{
                 created_at : created,
                 updated_at : created
             }
-            daoMovie.createMovie(movie)
+            daoMovie.createMovie(movie1)
             res.json('Se agregó correctamente la pelicula')
         }else{
             res.status(200).json('La pelicula ya existe!!')
@@ -33,15 +33,15 @@ exports.store = (req, res)=>{
 }
 exports.edit= (res, req)=>{
     try{
-        const movie = daoMovie.getMovie(req.params.id)
+        let movie = daoMovie.getMovie(req.params.id)
         res.json({'movie':movie})
     }catch (e){
         console.log(e);        
     }
 }
 exports.update = (res, req)=>{
-    const {id_api, original_title, backdrop_path, poster_path, overview, vote_average, vote_count} = req.body;
-    const update = time();
+    let {id_api, original_title, backdrop_path, poster_path, overview, vote_average, vote_count} = req.body;
+    let update = time();
     try{
         movie = {
             id_api: id_api,
@@ -62,7 +62,7 @@ exports.update = (res, req)=>{
 
 }
 exports.delete= (res,req)=>{
-    const deleted_at = time()
+    let deleted_at = time()
     try{
         daoMovie.deleteMovie(req.params.id, deleted_at)
         res.json('Se elimino correcamente')
@@ -83,7 +83,7 @@ isExistMovie = (id_api)=>{
 }
 
 time =()=>{
-    const hoy = new Date();
+    let hoy = new Date();
     var fecha = hoy.getFullYear() + '-'+ (hoy.getMonth()+1) +'-'+ hoy.getDate();
     var hora = hoy.getHours()+':'+ hoy.getMinutes()+':'+hoy.getSeconds();
     var created = fecha + ' ' + hora

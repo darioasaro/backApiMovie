@@ -33,7 +33,7 @@ exports.isExist = id_api => {
 };
 
 exports.createMovie = movie => {
-  const movie = {
+     movie = {
     id_api,
     original_title,
     backrop_path,
@@ -67,7 +67,7 @@ exports.createMovie = movie => {
 };
 
 exports.updateMovie = id => {
-  const {
+  movie = {
     original_title,
     backrop_path,
     poster_path,
@@ -76,7 +76,7 @@ exports.updateMovie = id => {
     vote_count,
     created_at,
     updated_at
-  } = movie;
+  } ;
   let sql = `UPDATE movies SET original_title = (?), backrop_path =(?), poster_path = (?), overview (?), vote_average = (?), vote_count = (?), created_at = (?), updated_at = (?) WHERE id = ${id} AND deleted_at IS null`;
   db.connection.query(
     sql,
