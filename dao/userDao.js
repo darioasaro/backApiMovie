@@ -37,6 +37,14 @@ exports.getUser = (id, callback) => {
   });
 };
 
+exports.isExist = (id, callback) => {
+  let sql = `SELECT * FROM users WHERE id = ${id} AND deleted_at IS null`;
+  db.connection.query(sql, (err, rows) => {
+    if (err) throw err;
+    return callback(err, rows);
+  });
+};
+
 exports.updateUser = (id, callback) => {
   let { userName, password, created_at, updated_at, id_role } = user;
   let sql = `UPDATE users SET userName = (?), password = (?), created_at = (?), updated_at = (?), id_role = (?) WHERE ${id} AND deleted_at IS null`;
