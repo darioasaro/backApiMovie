@@ -2,6 +2,7 @@
 const express = require('express')
 const app = express()
 const port = 3000
+const db = require('../config/connection.js')
 app.use((req, res, next) => {
           res.header('Access-Control-Allow-Origin', '*');
           res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -32,5 +33,6 @@ process.on('uncaughtException', function (err) {
 	console.error((new Date).toUTCString() + ' uncaughtException:', err.message)
 	
   })
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
