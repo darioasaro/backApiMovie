@@ -1,14 +1,14 @@
-const db = require('../config/connection')
+// const db = require("../config/connection");
 
-exports.addUser = (user,cb)=>{
-    db.connection.query(`INSERT INTO users (username, password,id_role) VALUES(?,?,?)`
-    ,[user.name,user.pass,user.role],(err,rows)=>{
-        if(err)throw err
+// exports.getAll = () => {
+//   let sql = "SELECT * FROM users WHERE deleted_at IS null";
+//   db.connection.query(sql, (err, rows) => {
+//     if (err) throw err;
+//     res.json({ movies: rows });
+//   });
+// };
 
-        cb(err,rows)
-    }
-    
-    
-    )
+// exports.createUser = () => {
+//   let sql = "INSERT INTO users (userName, password) VALUES ()";
+// };
 
-}

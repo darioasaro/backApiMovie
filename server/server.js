@@ -1,4 +1,3 @@
-
 const express = require('express')
 const app = express()
 const port = 3000
@@ -13,27 +12,24 @@ const routes = require( '../routes/routes.js' )
 const morgan = require('morgan')
 const moment = require ('moment')
 const process = require('process')
-require('dotenv').config()
-const db = require('../config/connection.js')
 console.log(process.env.DB_USER)
 const bodyParser = require('body-parser');
 const aplicacion = express.static(__dirname + '/public');
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(aplicacion)
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(aplicacion);
 
+app.use(morgan("dev"));
+routes(app);
 
-app.use( morgan( "dev") );
-routes(app)
-
-app.get("*", (req, res) => res.status(400).send({
-	message: "No se encuentra el recurso"
-}));
-
-process.on('uncaughtException', function (err) {
-	console.error((new Date).toUTCString() + ' uncaughtException:', err.message)
-	
+app.get("*", (req, res) =>
+  res.status(400).send({
+    message: "No se encuentra el recurso"
   })
+);
 
+process.on("uncaughtException", function(err) {
+  console.error(new Date().toUTCString() + " uncaughtException:", err.message);
+});
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
