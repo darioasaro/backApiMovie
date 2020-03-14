@@ -2,19 +2,20 @@
 const express = require('express')
 const app = express()
 const port = 3000
-const db = require('../config/connection.js')
 app.use((req, res, next) => {
-          res.header('Access-Control-Allow-Origin', '*');
-          res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-          res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE, PATCH');
-          res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE, PATCH');
-          next();
-      });
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE, PATCH');
+  res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE, PATCH');
+  next();
+});
 const routes = require( '../routes/routes.js' )
 const morgan = require('morgan')
 const moment = require ('moment')
-require('dotenv').config()
 const process = require('process')
+require('dotenv').config()
+const db = require('../config/connection.js')
+console.log(process.env.DB_USER)
 const bodyParser = require('body-parser');
 const aplicacion = express.static(__dirname + '/public');
 app.use(bodyParser.json());
