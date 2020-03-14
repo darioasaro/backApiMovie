@@ -1,3 +1,4 @@
+
 /**
  * getAll();
  * createUser();
@@ -65,3 +66,4 @@ exports.deleteUser = (id, callback) => {
     return callback(err, rows);
   });
 };
+
