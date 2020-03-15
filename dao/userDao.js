@@ -9,7 +9,7 @@
 const db = require("../config/connection");
 
 exports.getAll = callback => {
-  let sql = "SELECT * FROM users ";
+  let sql = "SELECT * FROM users AND deleted_at IS null ";
   let response;
   db.connection.query(sql, (err, rows) => {
     if (err) {
