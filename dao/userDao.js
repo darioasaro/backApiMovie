@@ -1,4 +1,3 @@
-
 /**
  * getAll();
  * createUser();
@@ -10,10 +9,18 @@
 const db = require("../config/connection");
 
 exports.getAll = callback => {
-  let sql = "SELECT * FROM users WHERE deleted_at IS null";
+  let sql = "SELECT * FROM users ";
+  let response;
   db.connection.query(sql, (err, rows) => {
-    if (err) throw err;
-    return callback(err, rows);
+    if (err) {
+      console.log("error", err);
+
+      throw err;
+    }
+
+    response = rows;
+
+    return callback(err, response);
   });
 };
 
@@ -66,4 +73,3 @@ exports.deleteUser = (id, callback) => {
     return callback(err, rows);
   });
 };
-
