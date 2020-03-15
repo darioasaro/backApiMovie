@@ -2,6 +2,7 @@ var userDao = require("../../dao/userDao");
 var crypto = require("crypto");
 
 
+
 //Gestion de login,encripta password con crypto y compara con el almacenado en la BD
 exports.login = (req, res) => {
   var username = req.body.user;
@@ -27,6 +28,7 @@ exports.login = (req, res) => {
   } else {
     res.status(400).json({ result: "Bad request" });
   }
+
 };
 
 //----Crea el usuario en la base de datos con la contraseña encriptada
@@ -40,10 +42,12 @@ exports.register = (req, res) => {
       .createHash("sha256")
       .update(password)
       .digest("hex");
+
     const user = { userName: username, password: hashedPassword, id_rol: rol };
     userDao.createUser(user, (err, rows) => {
       if (err) throw err;
     });
+
     res.json({ result: "ok" });
   } else {
     res.status(400).json({ result: "bad data" });

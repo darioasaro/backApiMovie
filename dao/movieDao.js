@@ -71,11 +71,13 @@ exports.createMovie = (movie, callback) => {
     function(err, rows) {
       if (err) throw err;
       return callback(err, rows);
+
     }
   );
 };
 
 exports.updateMovie = (id, callback) => {
+
   movie = {
     original_title,
     backrop_path,
@@ -86,6 +88,7 @@ exports.updateMovie = (id, callback) => {
     created_at,
     updated_at
   };
+
   let sql = `UPDATE movies SET original_title = (?), backrop_path =(?), poster_path = (?), overview (?), vote_average = (?), vote_count = (?), created_at = (?), updated_at = (?) WHERE id = ${id} AND deleted_at IS null`;
   db.connection.query(
     sql,
@@ -102,6 +105,7 @@ exports.updateMovie = (id, callback) => {
     function(err, rows) {
       if (err) throw err;
       return callback(err, rows);
+
     }
   );
 };
@@ -111,5 +115,6 @@ exports.deleteMovie = (id, deletedTime, callback) => {
   db.connection.query(sql, (err, rows) => {
     if (err) throw err;
     return callback(err, rows);
+
   });
 };

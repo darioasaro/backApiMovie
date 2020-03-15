@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 const port = 3000
+require('dotenv').config()
+const db = require('../config/connection.js')
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -12,8 +14,6 @@ const routes = require( '../routes/routes.js' )
 const morgan = require('morgan')
 const moment = require ('moment')
 const process = require('process')
-require('dotenv').config()
-const db = require('../config/connection.js')
 console.log(process.env.DB_USER)
 const bodyParser = require('body-parser');
 const aplicacion = express.static(__dirname + '/public');
