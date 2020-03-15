@@ -18,7 +18,7 @@ exports.getAll = callback => {
 };
 
 exports.createUser = (user, callback) => {
-  let { userName, password, created_at, updated_at, id_role } = user;
+  let { userName, password, created_at, updated_at, id_rol } = user;
   let sql = `INSERT INTO users (userName, password, created_at, updated_at, id_role) VALUES (?, ?, ?, ?, ?)`;
   db.connection.query(
     sql,
@@ -68,7 +68,7 @@ exports.deleteUser = (id, callback) => {
 };
 
 exports.getUserByNamePass = (userName, password, callback) => {
-  let sql = `SELECT * FROM users WHERE userName = ${userName} AND password = ${password}`;
+  let sql = `SELECT * FROM users WHERE userName = '${userName}' AND password = '${password}'`;
   db.connection.query(sql, (err, rows) => {
     if (err) throw err;
     return callback(err, rows);
