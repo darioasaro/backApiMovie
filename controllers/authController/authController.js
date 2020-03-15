@@ -23,9 +23,12 @@ exports.register = (req, res) => {
       .digest("hex");
     const user = { userName: username, password: hashedPassword , id_rol:rol};
     userDao.createUser(user, (err, rows) => {
-      if (err) throw err
+      if (err) {
+        res.status(500).json({'result':'Internal error'})
+      }
+        res.json({ result: "ok" });
+      
          });
-    res.json({ result: "ok" });
   }
   else{
   res.status(400).json({'result':'bad data'})

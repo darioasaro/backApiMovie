@@ -19,12 +19,11 @@ exports.getAll = callback => {
 
 exports.createUser = (user, callback) => {
   let { userName, password, created_at, updated_at, id_rol } = user;
-  let sql = `INSERT INTO users (userName, password, created_at, updated_at, id_role) VALUES (?, ?, ?, ?, ?)`;
+  let sql = `INSERT INTO users ( userName,password, created_at, updated_at, id_role) VALUES (?, ?, ?, ?, ?)`;
   db.connection.query(
     sql,
     [userName, password, created_at, updated_at, id_rol],
     (err, rows) => {
-      if (err) throw err;
       return callback(err, rows);
     }
   );
