@@ -5,9 +5,11 @@
  * getUser();
  * updateUser();
  * deleteUser();
+ * getUserByNamePass();
  */
 
 const db = require("../config/connection");
+
 
 exports.getAll = callback => {
   let sql = "SELECT * FROM users WHERE deleted_at IS null";
@@ -25,6 +27,7 @@ exports.createUser = (user, callback) => {
     [userName, password, created_at, updated_at, id_rol],
     (err, rows) => {
       return callback(err, rows);
+
     }
   );
 };
@@ -54,12 +57,23 @@ exports.updateUser = (id, callback) => {
     (err, rows) => {
       if (err) throw err;
       return callback(err, rows);
+r
     }
   );
 };
 
+
 exports.deleteUser = (id, callback) => {
   let sql = `UPDATE users SET deleted_ad = ${deletedTime}  WHERE id = ${id} AND deleted_at IS null`;
+  db.connection.query(sql, (err, rows) => {
+    if (err) throw err;
+    return callback(err, rows);
+  });
+};
+
+
+exports.getUserByNamePass = (userName, password, callback) => {
+  let sql = `SELECT * FROM users WHERE userName = '${userName}' AND password = '${password}'`;
   db.connection.query(sql, (err, rows) => {
     if (err) throw err;
     return callback(err, rows);
