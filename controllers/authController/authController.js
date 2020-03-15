@@ -1,6 +1,8 @@
 var userDao = require("../../dao/userDao");
 var crypto = require("crypto");
 
+
+//Gestion de login,encripta password con crypto y compara con el almacenado en la BD
 exports.login = (req, res) => {
   var username = req.body.user;
   var password = req.body.pass;
