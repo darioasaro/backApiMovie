@@ -25,11 +25,11 @@ exports.getAll = callback => {
 };
 
 exports.createUser = (user, callback) => {
-  let { name, password, created_at, updated_at, deleted_at, id_role } = user;
-  let sql = `INSERT INTO users (name, password, created_at,id_role) VALUES (?, ?, ?, ?)`;
+  let { userName, password, created_at, updated_at, deleted_at, id_role } = user;
+  let sql = `INSERT INTO users (userName, password, created_at,id_role) VALUES (?, ?, ?, ?)`;
   db.connection.query(
     sql,
-    [name,  password, created_at,id_role],
+    [userName,  password, created_at,id_role],
     (err, rows) => {
       if (err) throw err;
       return callback(err, rows);
@@ -60,7 +60,7 @@ exports.isExist = (id, callback) => {
 exports.updateUser = (user, callback) => {
   let {
     id,
-    name,
+    userName,
     password,
     created_at,
     updated_at,
@@ -69,8 +69,8 @@ exports.updateUser = (user, callback) => {
   } = user;
 
 
-  let sql = `UPDATE users SET name = ? , password = ?  WHERE id = ? AND deleted_at IS NULL`;
-  db.connection.query(sql, [name, password, id], (err, rows) => {
+  let sql = `UPDATE users SET userName = ? , password = ?  WHERE id = ? AND deleted_at IS NULL`;
+  db.connection.query(sql, [userName, password, id], (err, rows) => {
     if (err) throw err;
     return callback(err, rows);
   });
@@ -79,7 +79,7 @@ exports.updateUser = (user, callback) => {
 exports.deleteUser = (user, callback) => {
   let {
     id,
-    name,
+    userName,
     password,
     created_at,
     updated_at,

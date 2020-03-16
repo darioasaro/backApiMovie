@@ -41,11 +41,11 @@ exports.show = (req, res) => {
 
 exports.update = (req, res) => {
   try {
-    let { id, name, password, id_role } = req.body;
+    let { id, userName, password, id_role } = req.body;
 
     let user = {
       id: id,
-      name: name,
+      userName: userName,
       password: password,
       id_role: id_role
     };
@@ -68,12 +68,12 @@ exports.update = (req, res) => {
   }
 };
 exports.store = (req, res) => {
-  let {name, password,created_at,updated_at, deleted_at, id_role } = req.body;
+  let {userName, password,created_at,updated_at, deleted_at, id_role } = req.body;
 
   let created = time();
   try {
     let user = {
-      name: name,
+      userName: userName,
       password: password,
       created_at: created,
       updated_at: updated_at,
@@ -99,12 +99,12 @@ exports.store = (req, res) => {
 exports.delete = (req, res) => {
   
   try {
-    let { id, name, password, deleted_at, id_role } = req.body;
+    let { id, userName, password, deleted_at, id_role } = req.body;
     let deleted = time();
 
     let user = {
       id: id,
-      name: name,
+      userName: userName,
       password: password,
       deleted_at: deleted_at,
       id_role: id_role
