@@ -34,7 +34,6 @@ exports.login = (req, res) => {
 
 //----Crea el usuario en la base de datos con la contraseña encriptada
 exports.register = (req, res) => {
-  console.log('user',req.body)
   const username = req.body.username;
   const password = req.body.password;
   const rol = 1;
