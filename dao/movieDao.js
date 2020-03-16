@@ -13,47 +13,39 @@ exports.getAll = callback => {
   let response;
   db.connection.query(sql, (err, rows) => {
     if (err) {
-
-      console.log('error',err);
-      throw err
-    } 
-    response =  rows
-    return callback( err , response)
-    
-
+      console.log("error", err);
+      throw err;
+    }
+    response = rows;
+    return callback(err, response);
   });
 };
 
 exports.getMovie = (id, callback) => {
-
   let movie;
-  let sql = `SELECT * FROM movies WHERE id = ${id} AND deleted_at IS null`;
-  db.connection.query(sql, (err, rows) => {
+  let sql = `SELECT * FROM movies WHERE id = (?) AND deleted_at IS null`;
+  db.connection.query(sql, [id], (err, rows) => {
     if (err) throw err;
-    movie = rows
-    return callback(err,movie);
+    movie = rows;
+    return callback(err, movie);
   });
 };
 
-exports.isExist = (id_api,callback) => {
-  
-  let sql = `SELECT * FROM movies WHERE id_api = '${id_api}' AND deleted_at IS null`;
-  console.log('sql',sql);
+exports.isExist = (id_api, callback) => {
+  let sql = `SELECT * FROM movies WHERE id_api = (?) AND deleted_at IS null`;
   let response;
-  
-  db.connection.query(sql, (err, rows) => {
+  db.connection.query(sql, [id_api], (err, rows) => {
     if (err) {
-      console.log('err',err);
-      err
-    };
-    response =  rows    
-    return callback(err, response)
+      console.log("err", err);
+      err;
+    }
+    response = rows;
+    return callback(err, response);
   });
 };
 
 exports.createMovie = movie => {
-    let  {
-
+  let {
     id_api,
     original_title,
     backdrop_path,
@@ -62,7 +54,6 @@ exports.createMovie = movie => {
     vote_average,
     vote_count,
     created_at,
-    deleted_at,
     updated_at
   } = movie;
   let sql = `INSERT INTO movies (id_api, original_title, backdrop_path, poster_path, overview, vote_average, vote_count, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?,?)`;
@@ -81,13 +72,12 @@ exports.createMovie = movie => {
     ],
     function(err, rows) {
       if (err) throw err;
-
     }
   );
+  console.log("Actual", movie);
 };
 
-
-exports.updateMovie = (movie, id) => { 
+exports.updateMovie = (movie, id) => {
   let sql = `UPDATE movies SET original_title = (?), backdrop_path =(?), poster_path = (?), overview= (?), vote_average = (?), vote_count = (?), updated_at = (?) WHERE id = ${id} AND deleted_at IS null`;
 
   db.connection.query(
@@ -103,18 +93,13 @@ exports.updateMovie = (movie, id) => {
     ],
     function(err, rows) {
       if (err) throw err;
-
-
     }
   );
 };
 
-
 exports.deleteMovie = (id, deletedTime) => {
-  let sql = `UPDATE movies SET deleted_at = '${deletedTime}'  WHERE id = ${id} AND deleted_at IS null`;
-  db.connection.query(sql, (err, rows) => {
+  let sql = `UPDATE movies SET deleted_at = (?) WHERE id = (?) AND deleted_at IS null`;
+  db.connection.query(sql, [deletedTime, id], (err, rows) => {
     if (err) throw err;
-    //res.json({ movies: rows });
-
   });
 };
