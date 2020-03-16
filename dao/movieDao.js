@@ -81,7 +81,7 @@ exports.createMovie = movie => {
     ],
     function(err, rows) {
       if (err) throw err;
-<
+
     }
   );
 };
@@ -93,8 +93,8 @@ exports.updateMovie = (movie, id) => {
   db.connection.query(
     sql,
     [
-      original_title= movie.original_title,t
-      backrop_path = movie.backdrop_path,
+      original_title= movie.original_title,
+      backdrop_path = movie.backdrop_path,
       poster_path= movie.poster_path,
       overview = movie.overview,
       vote_average = movie.vote_average,
