@@ -83,7 +83,6 @@ exports.updateMovie = (movie, id) => {
   db.connection.query(
     sql,
     [
-<<<<<<< HEAD
       original_title= movie.original_title,
       backdrop_path = movie.backdrop_path,
       poster_path= movie.poster_path,
@@ -91,15 +90,6 @@ exports.updateMovie = (movie, id) => {
       vote_average = movie.vote_average,
       vote_count = movie.vote_count,
       updated_at= movie.updated_at
-=======
-      (original_title = movie.original_title),
-      (backrop_path = movie.backdrop_path),
-      (poster_path = movie.poster_path),
-      (overview = movie.overview),
-      (vote_average = movie.vote_average),
-      (vote_count = movie.vote_count),
-      (updated_at = movie.updated_at)
->>>>>>> b81a19a20f69f5635d298125a982afbec80ef3f5
     ],
     function(err, rows) {
       if (err) throw err;
