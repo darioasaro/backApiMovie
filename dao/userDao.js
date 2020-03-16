@@ -25,11 +25,11 @@ exports.getAll = callback => {
 };
 
 exports.createUser = (user, callback) => {
-  let { userName, password, created_at, updated_at, id_rol } = user;
-  let sql = `INSERT INTO users (userName, password, created_at, updated_at, id_role) VALUES (?, ?, ?, ?, ?)`;
+  let { name, password, created_at, updated_at, deleted_at, id_role } = user;
+  let sql = `INSERT INTO users (name, password, created_at,id_role) VALUES (?, ?, ?, ?)`;
   db.connection.query(
     sql,
-    [userName, password, created_at, updated_at, id_rol],
+    [name,  password, created_at,id_role],
     (err, rows) => {
       if (err) throw err;
       return callback(err, rows);
@@ -57,32 +57,43 @@ exports.isExist = (id, callback) => {
   });
 };
 
-exports.updateUser = (user, callback) => {  
-  let {id, name, password, created_at, updated_at,deleted_at, id_role } = user;
-  console.log('userDao',user.name,user.password);
-  
-  let sql = `UPDATE users SET name = ? , password = ?  WHERE id = ? AND deleted_at IS NULL`;
-  db.connection.query(
-    sql,
-    [name,password,id ],
-    (err, rows) => {
-      if (err) throw err;
-      return callback(err, rows);
-    }
-  );
-};
+exports.updateUser = (user, callback) => {
+  let {
+    id,
+    name,
+    password,
+    created_at,
+    updated_at,
+    deleted_at,
+    id_role
+  } = user;
 
-exports.deleteUser = (user, callback) => {
-  let{id,name,password,created_at,updated_at,deleted_at,id_role} = user;
-   
-  let currentTime = time();
-  let sql = `UPDATE users SET deleted_at = ?  WHERE id = ? AND deleted_at IS NULL`;
-  db.connection.query(sql,[currentTime,id], (err, rows) => {
+
+  let sql = `UPDATE users SET name = ? , password = ?  WHERE id = ? AND deleted_at IS NULL`;
+  db.connection.query(sql, [name, password, id], (err, rows) => {
     if (err) throw err;
     return callback(err, rows);
   });
 };
 
+exports.deleteUser = (user, callback) => {
+  let {
+    id,
+    name,
+    password,
+    created_at,
+    updated_at,
+    deleted_at,
+    id_role
+  } = user;
+
+  let currentTime = time();
+  let sql = `UPDATE users SET deleted_at = ?  WHERE id = ? AND deleted_at IS NULL`;
+  db.connection.query(sql, [currentTime, id], (err, rows) => {
+    if (err) throw err;
+    return callback(err, rows);
+  });
+};
 
 let time = () => {
   let today = new Date();

@@ -68,28 +68,35 @@ exports.update = (req, res) => {
   }
 };
 exports.store = (req, res) => {
-  let { id, name, password, deleted_at, id_role } = req.body;
+  let {name, password,created_at,updated_at, deleted_at, id_role } = req.body;
 
   let created = time();
   try {
     let user = {
-      id: id,
       name: name,
       password: password,
       created_at: created,
-      updated_at: created,
+      updated_at: updated_at,
       deleted_at: deleted_at,
       id_role: id_role
     };
-    daoUser.updateUser(user);
-    res.json("Se edito correctamente el usuario");
+    daoUser.createUser(user,(err,response)=>{
+      if(err){
+        res.status(500).json({ result: false, message: "internal error" })
+      }
+      else{
+        console.log("created",response);
+        res.json({"created":response})
+        
+      }
+    });
+    
   } catch (e) {
     console.log(e);
   }
 };
 
 exports.delete = (req, res) => {
-  console.log("entro");
   
   try {
     let { id, name, password, deleted_at, id_role } = req.body;
