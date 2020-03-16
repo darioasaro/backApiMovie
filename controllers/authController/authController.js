@@ -36,15 +36,16 @@ exports.login = (req, res) => {
 exports.register = (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-  const rol = 1;
+  const id_role = req.body.id_role 
+ 
 
-  if (username && password && rol) {
+  if (username && password && id_role) {
     const hashedPassword = crypto
       .createHash("sha256")
       .update(password)
       .digest("hex");
 
-    const user = { userName: username, password: hashedPassword, id_rol: rol };
+    const user = { userName: username, password: hashedPassword, id_role };
     userDao.createUser(user, (err, rows) => {
       if (err) {
         res.status(500).json({'result':'Internal error'})
