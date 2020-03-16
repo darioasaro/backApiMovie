@@ -17,28 +17,25 @@ exports.getAll = ( callback ) => {
       console.log('error',err);
       throw err
     } 
-     // console.log('rows',rows)
     response =  rows
-    
-    //console.log('responseDao',response)
-    
-    
     return callback( err , response)
     
   });
 };
 
-exports.getMovie = id => {
+exports.getMovie = (id, callback) => {
+  let movie;
   let sql = `SELECT * FROM movies WHERE id = ${id} AND deleted_at IS null`;
   db.connection.query(sql, (err, rows) => {
     if (err) throw err;
-    res.json({ movies: rows });
+    movie = rows
+    return callback(err,movie);
   });
 };
 
-exports.isExist = (callback) => {
+exports.isExist = (id_api,callback) => {
   
-  let sql = `SELECT * FROM movies WHERE id_api = '${callback}' AND deleted_at IS null`;
+  let sql = `SELECT * FROM movies WHERE id_api = '${id_api}' AND deleted_at IS null`;
   console.log('sql',sql);
   let response;
   
@@ -47,11 +44,8 @@ exports.isExist = (callback) => {
       console.log('err',err);
       err
     };
-    response =  rows
-    console.log('rows', response);
-    
+    response =  rows    
     return callback(err, response)
-    //res.json({ movies: rows });
   });
 };
 
@@ -84,46 +78,33 @@ exports.createMovie = movie => {
     ],
     function(err, rows) {
       if (err) throw err;
-      res.json({ movies: rows });
     }
   );
 };
 
-exports.updateMovie = id => {
-  movie = {
-    original_title,
-    backrop_path,
-    poster_path,
-    overview,
-    vote_average,
-    vote_count,
-    created_at,
-    updated_at
-  } ;
-  let sql = `UPDATE movies SET original_title = (?), backrop_path =(?), poster_path = (?), overview (?), vote_average = (?), vote_count = (?), created_at = (?), updated_at = (?) WHERE id = ${id} AND deleted_at IS null`;
+exports.updateMovie = (movie, id) => { 
+  let sql = `UPDATE movies SET original_title = (?), backdrop_path =(?), poster_path = (?), overview= (?), vote_average = (?), vote_count = (?), updated_at = (?) WHERE id = ${id} AND deleted_at IS null`;
   db.connection.query(
     sql,
     [
-      original_title,
-      backrop_path,
-      poster_path,
-      overview,
-      vote_average,
-      vote_count,
-      created_at,
-      updated_at
+      original_title= movie.original_title,
+      backrop_path = movie.backdrop_path,
+      poster_path= movie.poster_path,
+      overview = movie.overview,
+      vote_average = movie.vote_average,
+      vote_count = movie.vote_count,
+      updated_at= movie.updated_at
     ],
     function(err, rows) {
       if (err) throw err;
-      es.json({ movies: rows });
     }
   );
 };
 
 exports.deleteMovie = (id, deletedTime) => {
-  let sql = `UPDATE movies SET deleted_ad = ${deletedTime}  WHERE id = ${id} AND deleted_at IS null`;
+  let sql = `UPDATE movies SET deleted_at = '${deletedTime}'  WHERE id = ${id} AND deleted_at IS null`;
   db.connection.query(sql, (err, rows) => {
     if (err) throw err;
-    res.json({ movies: rows });
+    //res.json({ movies: rows });
   });
 };
