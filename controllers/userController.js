@@ -2,18 +2,21 @@ const daoUser = require("../dao/userDao.js");
 
 isExistUser = id => {
   let exist = false;
-  let user = daoUser.isExist(id);
-  if (user) {
-    exist = true;
+  let user = daoUser.isExist(id, (err, resp) => {
+    if (resp) {
+      console.log("resp", resp);
+      if (Array.isArray(resp) && resp.length > 0) exist = true;
+      else exist = false;
+      console.log(exist);
+
+      return exist;
+    }
     return exist;
-  } else {
-    return exist;
-  }
+  });
 };
 
 exports.index = (req, res) => {
   daoUser.getAll((err, users) => {
-    console.log("users", users);
     res.json({ users: users });
   });
 };
@@ -22,64 +25,104 @@ exports.show = (req, res) => {
   let id = req.params.id;
 
   try {
-    if (isExistUser(id)) {
-      let user = daoUser.getUser(id);
-      res.json({ user: user });
-    } else {
-      res.status(400).json("Usuario no encontrado");
-    }
-  } catch (e) {
-    console.log(e);
-  }
-};
+    console.log(id);
 
-exports.edit = (req, res) => {
-  let id = req.params.id;
-
-  try {
-    if (isExistUser(id)) {
-      let user = daoUser.getUser(id);
-      res.json({ user: user });
-    } else {
-      res.status(400).json("Usuario no econtrado");
-    }
+    daoUser.getUser(id, (err, resp) => {
+      if (err) {
+        res.status(500).json({ result: false, message: "internal error" });
+      } else {
+        res.json({ user: resp });
+      }
+    });
   } catch (e) {
     console.log(e);
   }
 };
 
 exports.update = (req, res) => {
-  let { id, name, pass, active } = req.body;
-  //agregar el updated at , fecha en que se lo modifica
   try {
-    if (isExistUser(id)) {
-      user = {
-        id: id,
-        name: name,
-        pass: pass,
-        active: active
-      };
-      daoUser.updateUser(user);
-      res.json("Se edito correctamente el usuario");
-    } else {
-      res.status(400).json("Usuario no encontrado");
-    }
+    let { id, name, password, id_role } = req.body;
+
+    let user = {
+      id: id,
+      name: name,
+      password: password,
+      id_role: id_role
+    };
+
+    console.log("entro");
+
+    daoUser.updateUser(user, (err, response) => {
+      console.log("entro2");
+
+      if (err) {
+        res.status(500).json({ result: false, message: "internal error" });
+      } else {
+        console.log("update", response);
+
+        res.json({ update: response });
+      }
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+exports.store = (req, res) => {
+  let { id, name, password, deleted_at, id_role } = req.body;
+
+  let created = time();
+  try {
+    let user = {
+      id: id,
+      name: name,
+      password: password,
+      created_at: created,
+      updated_at: created,
+      deleted_at: deleted_at,
+      id_role: id_role
+    };
+    daoUser.updateUser(user);
+    res.json("Se edito correctamente el usuario");
   } catch (e) {
     console.log(e);
   }
 };
 
 exports.delete = (req, res) => {
-  let id = req.params.id;
-
+  console.log("entro");
+  
   try {
-    if (!isExistUser(id)) {
-      daoUser.deleteUser(id);
-      res.json("Se borro el usuario correctamente");
-    } else {
-      res.status(400).json("el usuario no existe o ya fue borrado");
-    }
+    let { id, name, password, deleted_at, id_role } = req.body;
+    let deleted = time();
+
+    let user = {
+      id: id,
+      name: name,
+      password: password,
+      deleted_at: deleted_at,
+      id_role: id_role
+    };
+    daoUser.deleteUser(user, (err,response) => {
+      if(err){
+        res.status(500).json({ result: false, message: "internal error" });
+      }
+      else{
+        console.log("deleted",response);
+        res.json({"deleted":response})
+        
+      }
+    })
   } catch (e) {
     console.log(e);
   }
+};
+
+let time = () => {
+  let today = new Date();
+  var date =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  var hour =
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  var created = date + " " + hour;
+  return created;
 };

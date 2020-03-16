@@ -4,8 +4,8 @@ const router = express.Router();
 
 router.get('/', userController.index)
 router.get('/:id', userController.show)
-router.post('/:id', userController.edit)
-router.put('/:id', userController.update)
-router.delete('/:id', userController.delete)
+router.post('/:id', userController.store)
+router.put('/', userController.update)
+router.delete('/', userController.delete)
 
 module.exports = router;
