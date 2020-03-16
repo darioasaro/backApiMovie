@@ -94,7 +94,7 @@ exports.updateMovie = (movie, id) => {
     sql,
     [
       original_title= movie.original_title,
-      backrop_path = movie.backdrop_path,
+      backdrop_path = movie.backdrop_path,
       poster_path= movie.poster_path,
       overview = movie.overview,
       vote_average = movie.vote_average,
