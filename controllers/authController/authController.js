@@ -5,8 +5,9 @@ var crypto = require("crypto");
 
 //Gestion de login,encripta password con crypto y compara con el almacenado en la BD
 exports.login = (req, res) => {
-  var username = req.body.user;
-  var password = req.body.pass;
+  console.log(req.body)
+  var username = req.body.username;
+  var password = req.body.password;
 
   if (username && password) {
     const hashedPassword = crypto
@@ -22,11 +23,11 @@ exports.login = (req, res) => {
           .status(403)
           .json({ result: false, message: "Error Login,try again" });
       } else {
-        res.json({ result: "login ok" });
+        res.json({ result: true,'message':"login ok",rol:2});
       }
     });
   } else {
-    res.status(400).json({ result: "Bad request" });
+    res.status(400).json({ result:false,'message': "Bad request" });
   }
 
 };
