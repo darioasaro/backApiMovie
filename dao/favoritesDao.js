@@ -5,42 +5,35 @@ const db = require("../config/connection");
  * deleteFavMovie();
  */
 
-exports.getFavMovies = callback => {
-  let sql = "SELECT * FROM movies WHERE deleted_at IS null";
+exports.getFavMovies = (id_user, callback) => {
+  let idUser = id_user
+  let movies;
+  let sql = `SELECT m.*, u.userName, u.id as 'idUser'
+             from movie_user mv
+             inner join movies m
+             on mv.id_movie = m.id
+             inner join users u
+             on mv.id_user = u.id 
+             where u.id = ${idUser}`;
   db.connection.query(sql, (err, rows) => {
     if (err) {
       console.log("error", err);
       throw err;
     }
-    return callback(err, rows);
+    movies = rows
+    return callback(err, movies);
   });
 };
 
-exports.addFavMovie = movie => {
-  let {
-    id_api,
-    original_title,
-    backdrop_path,
-    poster_path,
-    overview,
-    vote_average,
-    vote_count,
-    created_at,
-    updated_at
-  } = movie;
-  let sql = `INSERT INTO movies (id_api, original_title, backdrop_path, poster_path, overview, vote_average, vote_count, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?,?)`;
+exports.addFavMovie = (id_movie, id_user) => {
+  
+  let sql = `INSERT INTO movie_user (id_movie, id_user) VALUES (?,?)`;
   db.connection.query(
     sql,
     [
-      id_api,
-      original_title,
-      backdrop_path,
-      poster_path,
-      overview,
-      vote_average,
-      vote_count,
-      created_at,
-      updated_at
+      id_movie,
+      id_user
+      
     ],
     (err, rows) => {
       if (err) throw err;
@@ -48,9 +41,10 @@ exports.addFavMovie = movie => {
   );
 };
 
-exports.deleteFavMovie = (id, deletedTime) => {
-  let sql = `UPDATE movies SET deleted_at = (?) WHERE id = (?) AND deleted_at IS null`;
-  db.connection.query(sql, [deletedTime, id], (err, rows) => {
+exports.deleteFavMovies = (id_movie, id_user) => {
+  console.log('id_movieas', id_movie);  
+  let sql = `delete from  movie_user  WHERE id_movie = (?) AND id_user = (?) `;
+  db.connection.query(sql, [id_movie, id_user], (err, rows) => {
     if (err) throw err;
   });
 };
