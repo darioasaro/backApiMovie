@@ -1,4 +1,5 @@
 const daoMovie = require("../dao/movieDao.js");
+const service = require('../services/movies')
 exports.index = (req, res) => {
   daoMovie.getAll((err, movies) => {
     res.json({ movies: movies });
@@ -114,3 +115,20 @@ time = () => {
   var created = fecha + " " + hora;
   return created;
 };
+
+exports.search = async (req,res)=>{
+    const movie=req.params.movie
+    if(movie){
+    
+      const data = await service.searchMovies(movie)
+      if(!data){
+        res.status(500).json({result:false,message:'Internal Error'})
+      }
+      if(data.results.length<0){
+        res.status(404).json({results:false,message:'movie not fund'})
+      }
+      else{
+        res.json({results:data.results})
+      }
+  }
+}

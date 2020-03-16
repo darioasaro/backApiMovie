@@ -23,7 +23,8 @@ exports.login = (req, res) => {
           .status(403)
           .json({ result: false, message: "Error Login,try again" });
       } else {
-        res.json({ result: true,'message':"login ok",rol:2});
+        console.log('rows',rows[0])
+        res.json({ result: true,'message':"login ok",rol:rows[0].id_role});
       }
     });
   } else {
@@ -34,18 +35,18 @@ exports.login = (req, res) => {
 
 //----Crea el usuario en la base de datos con la contraseña encriptada
 exports.register = (req, res) => {
-  console.log('user',req.body)
   const username = req.body.username;
   const password = req.body.password;
-  const rol = 1;
+  const id_role = req.body.id_role 
+ 
 
-  if (username && password && rol) {
+  if (username && password && id_role) {
     const hashedPassword = crypto
       .createHash("sha256")
       .update(password)
       .digest("hex");
 
-    const user = { userName: username, password: hashedPassword, id_rol: rol };
+    const user = { userName: username, password: hashedPassword, id_role };
     userDao.createUser(user, (err, rows) => {
       if (err) {
         res.status(500).json({'result':'Internal error'})

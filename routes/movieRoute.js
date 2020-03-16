@@ -3,6 +3,7 @@ const movieController = require('../controllers/movieController')
 const router = express.Router()
 
 router.get('/', movieController.index  )
+router.get('/:movie',movieController.search)
 router.post('/', movieController.store )
 router.get('/:id', movieController.edit )
 router.delete('/:id', movieController.delete )
