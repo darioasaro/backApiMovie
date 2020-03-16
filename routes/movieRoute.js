@@ -6,6 +6,6 @@ router.get('/', movieController.index  )
 router.post('/', movieController.store )
 router.get('/:id', movieController.edit )
 router.delete('/:id', movieController.delete )
-router.put('/:id', movieController.update )
+router.patch('/:id', movieController.update )
 
 module.exports = router 

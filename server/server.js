@@ -30,8 +30,8 @@ app.get("*", (req, res) =>
   })
 );
 
-process.on("uncaughtException", function(err) {
-  console.error(new Date().toUTCString() + " uncaughtException:", err.message);
-});
+// process.on("uncaughtException", function(err) {
+//   console.error(new Date().toUTCString() + " uncaughtException:", err.message);
+// });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
