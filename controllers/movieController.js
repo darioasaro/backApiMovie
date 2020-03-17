@@ -118,6 +118,7 @@ time = () => {
 
 exports.search = async (req,res)=>{
     const movie=req.params.movie
+    
     if(movie){
     
       const data = await service.searchMovies(movie)
