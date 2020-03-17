@@ -7,6 +7,8 @@ exports.index = (req, res) => {
 };
 
 exports.store = (req, res) => {
+  //console.log(req.body.genre);
+  
   let {
     id_api,
     original_title,
@@ -30,7 +32,7 @@ exports.store = (req, res) => {
         created_at: created,
         updated_at: created
       };
-      daoMovie.createMovie(movie1);
+      daoMovie.createMovie(movie1,req.body.genre );
       res.json("Se agregó correctamente la pelicula");
     } else {
       res.status(200).json("La pelicula ya existe!!");
@@ -46,7 +48,6 @@ exports.edit = (req, res) => {
       res.status(500).json({ result: false, menssage: "internal error" });
     } else {
       movie = cb;
-      console.log(movie);
       res.json({ movie: movie });
     }
   });
