@@ -44,7 +44,9 @@ exports.isExist = (id_api, callback) => {
   });
 };
 
-exports.createMovie = movie => {
+exports.createMovie = (movie, generos) => {
+  //console.log('genero dao',genero);
+  
   let {
     id_api,
     original_title,
@@ -57,6 +59,7 @@ exports.createMovie = movie => {
     updated_at
   } = movie;
   let sql = `INSERT INTO movies (id_api, original_title, backdrop_path, poster_path, overview, vote_average, vote_count, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?,?)`;
+  let ultimoId;
   db.connection.query(
     sql,
     [
@@ -72,9 +75,17 @@ exports.createMovie = movie => {
     ],
     function(err, rows) {
       if (err) throw err;
+      ultimoId = rows.insertId
+      generos.forEach(genero => {
+        let sql1= `INSERT INTO genre_movie (id_movie, id_genre) value (${ultimoId},${genero.id})`
+        db.connection.query(sql1, function(err, rows){ if (err) throw err;});
+       
+       });
+      
     }
   );
-  console.log("Actual", movie);
+  
+  
 };
 
 exports.updateMovie = (movie, id) => {
