@@ -6,7 +6,7 @@ const router = express.Router()
 router.get('/', movieController.index  )
 router.get('/:movie',secure.secure,movieController.search)
 router.post('/', movieController.store )
-router.get('/:id', movieController.edit )
+router.get('/list/:id', movieController.edit )
 router.delete('/:id', movieController.delete )
 router.patch('/:id', movieController.update )
 

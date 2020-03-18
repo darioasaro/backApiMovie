@@ -2,7 +2,7 @@ const userDao = require("../../dao/userDao");
 const crypto = require("crypto");
 const jwt =  require ('jsonwebtoken')
 const secret = 'mysecretsshhh';
-const rediService = require('../../services/redis')
+// const rediService = require('../../services/redis')
 
 
 
@@ -33,9 +33,9 @@ exports.login = (req, res) => {
           id_role : rows[0].id_role
         }
         const tk = generateToken(u)
-        rediService.insert('token',tk,(err,result)=>{
-            console.log('resultado agregar redis',result)
-        })
+        // rediService.insert('token',tk,(err,result)=>{
+        //     console.log('resultado agregar redis',result)
+        // })
         res.json({ result: true,'message':"login ok",token:tk,rol:rows[0].id_role,id:rows[0].id});
       }
     });
