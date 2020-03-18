@@ -23,6 +23,7 @@ exports.getGenre = async () => {
 
 //Busca en la api de acuerdo a lo ingresado en la barra de busqueda de la pagina
 exports.searchMovies = async movie => {
+
   var res = encodeURI(movie);
 
   var response = await fetch(

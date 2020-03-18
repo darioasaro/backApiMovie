@@ -43,11 +43,14 @@ exports.store = (req, res) => {
 };
 exports.edit = (req, res) => {
   let movie;
+  
   daoMovie.getMovie(req.params.id, (err, cb) => {
     if (err) {
       res.status(500).json({ result: false, menssage: "internal error" });
     } else {
       movie = cb;
+      console.log('pelicula',movie)
+     
       res.json({ movie: movie });
     }
   });
@@ -119,6 +122,7 @@ time = () => {
 
 exports.search = async (req,res)=>{
     const movie=req.params.movie
+    
     if(movie){
     
       const data = await service.searchMovies(movie)

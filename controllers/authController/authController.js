@@ -1,5 +1,8 @@
-var userDao = require("../../dao/userDao");
-var crypto = require("crypto");
+const userDao = require("../../dao/userDao");
+const crypto = require("crypto");
+const jwt =  require ('jsonwebtoken')
+const secret = 'mysecretsshhh';
+// const rediService = require('../../services/redis')
 
 
 
@@ -8,6 +11,7 @@ exports.login = (req, res) => {
   console.log(req.body)
   var username = req.body.username;
   var password = req.body.password;
+ 
 
   if (username && password) {
     const hashedPassword = crypto
@@ -24,7 +28,15 @@ exports.login = (req, res) => {
           .json({ result: false, message: "Error Login,try again" });
       } else {
         console.log('rows',rows[0])
-        res.json({ result: true,'message':"login ok",rol:rows[0].id_role});
+        const u = {
+          username: rows[0].username,
+          id_role : rows[0].id_role
+        }
+        const tk = generateToken(u)
+        // rediService.insert('token',tk,(err,result)=>{
+        //     console.log('resultado agregar redis',result)
+        // })
+        res.json({ result: true,'message':"login ok",token:tk,rol:rows[0].id_role,id:rows[0].id});
       }
     });
   } else {
@@ -32,6 +44,16 @@ exports.login = (req, res) => {
   }
 
 };
+
+const generateToken = (user) =>{
+  var u = {
+   username: user.username,
+   id_role : user.id_role
+  }
+  return token = jwt.sign(u, secret, {
+     expiresIn: 60 * 60 * 24 // expira in 24 hours
+  })
+}
 
 //----Crea el usuario en la base de datos con la contraseña encriptada
 exports.register = (req, res) => {
