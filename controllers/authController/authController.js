@@ -1,14 +1,11 @@
 const userDao = require("../../dao/userDao");
 const crypto = require("crypto");
-const jwt =  require ('jsonwebtoken')
-const secret = 'mysecretsshhh';
-// const rediService = require('../../services/redis')
+const rediService = require('../../services/redis')
 
 
 
 //Gestion de login,encripta password con crypto y compara con el almacenado en la BD
 exports.login = (req, res) => {
-  console.log(req.body)
   var username = req.body.username;
   var password = req.body.password;
  
@@ -27,16 +24,24 @@ exports.login = (req, res) => {
           .status(403)
           .json({ result: false, message: "Error Login,try again" });
       } else {
-        console.log('rows',rows[0])
-        const u = {
-          username: rows[0].username,
-          id_role : rows[0].id_role
+        const us = rows[0]
+        const usRed = {
+          userName : us.userName,
+          password : us.password,
+          id_role : us.id_role
         }
-        const tk = generateToken(u)
-        // rediService.insert('token',tk,(err,result)=>{
-        //     console.log('resultado agregar redis',result)
-        // })
-        res.json({ result: true,'message':"login ok",token:tk,rol:rows[0].id_role,id:rows[0].id});
+        
+        const tk = generateToken()
+        rediService.insert(tk,JSON.stringify(usRed),(err,result)=>{
+          if(err){
+                res.status(500).send('Internal Error')
+          }
+          
+            
+            res.json({ result: true,'message':"login ok",token:tk,rol:us.id_role,id:us.id});
+           
+          
+        })
       }
     });
   } else {
@@ -45,15 +50,14 @@ exports.login = (req, res) => {
 
 };
 
-const generateToken = (user) =>{
-  var u = {
-   username: user.username,
-   id_role : user.id_role
+generateToken = (size = 10) => {
+  let text = '';
+  let possibleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  for (let i = 0; i < size; i++) {
+      text += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
   }
-  return token = jwt.sign(u, secret, {
-     expiresIn: 60 * 60 * 24 // expira in 24 hours
-  })
-}
+  return text;
+};
 
 //----Crea el usuario en la base de datos con la contraseña encriptada
 exports.register = (req, res) => {
@@ -73,8 +77,8 @@ exports.register = (req, res) => {
       if (err) {
         res.status(500).json({'result':'Internal error'})
       }
-        res.json({ result: "ok" });
-      
+        res.status(201).json({ result: "ok",user:username,id:rows.insertId});
+        
          });
   }
 };

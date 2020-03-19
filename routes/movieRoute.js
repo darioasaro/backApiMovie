@@ -4,10 +4,10 @@ const secure = require('../middleware/secure')
 const router = express.Router()
 
 router.get('/', movieController.index  )
-router.get('/:movie',secure.secure,movieController.search)
-router.post('/', movieController.store )
+router.get('/:movie',secure.admin,movieController.search)
+router.post('/', secure.admin,movieController.store )
 router.get('/list/:id', movieController.edit )
-router.delete('/:id', movieController.delete )
-router.patch('/:id', movieController.update )
+router.delete('/:id', secure.admin,movieController.delete )
+router.patch('/:id', secure.admin,movieController.update )
 
 module.exports = router 
