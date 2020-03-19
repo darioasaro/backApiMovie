@@ -35,6 +35,7 @@ exports.createUser = (user, callback) => {
     [userName,  password, created_at,id_role],
     (err, rows) => {
       if (err) throw err;
+      callback(err,rows)
     }
   );
 };
