@@ -7,6 +7,8 @@ exports.index = (req, res) => {
 };
 
 exports.store = (req, res) => {
+  console.log(req.body);
+  
   //console.log(req.body.genre);
   
   let {
