@@ -112,5 +112,9 @@ exports.deleteMovie = (id, deletedTime) => {
   let sql = `UPDATE movies SET deleted_at = (?) WHERE id = (?) AND deleted_at IS null`;
   db.connection.query(sql, [deletedTime, id], (err, rows) => {
     if (err) throw err;
+    let sql1 = `DELETE from genre_movie where id_movie = ${id}`
+    db.connection.query(sql1, function(err, rows){
+       if (err) throw err;       
+      })
   });
 };

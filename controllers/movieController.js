@@ -49,6 +49,7 @@ exports.edit = (req, res) => {
       res.status(500).json({ result: false, menssage: "internal error" });
     } else {
       movie = cb;
+
      
       res.json({ movie: movie });
     }
