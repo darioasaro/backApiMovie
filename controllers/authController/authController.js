@@ -77,8 +77,8 @@ exports.register = (req, res) => {
       if (err) {
         res.status(500).json({'result':'Internal error'})
       }
-        res.json({ result: "ok" });
-      
+        res.status(201).json({ result: "ok",user:username,id:rows.insertId});
+        
          });
   }
 };
