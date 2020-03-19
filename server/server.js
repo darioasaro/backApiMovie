@@ -14,7 +14,6 @@ const routes = require( '../routes/routes.js' )
 const morgan = require('morgan')
 const moment = require ('moment')
 const process = require('process')
-console.log(process.env.DB_USER)
 const bodyParser = require('body-parser');
 const aplicacion = express.static(__dirname + '/public');
 app.use(bodyParser.json());
