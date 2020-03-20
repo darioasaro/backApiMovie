@@ -44,6 +44,8 @@ exports.store = (req, res) => {
   }
 };
 exports.edit = (req, res) => {
+  console.log('hola');
+  
   let movie;
   
   daoMovie.getMovie(req.params.id, (err, cb) => {
