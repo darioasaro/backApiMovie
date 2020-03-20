@@ -7,9 +7,13 @@ exports.index = (req, res) => {
 };
 
 exports.store = (req, res) => {
+<<<<<<< HEAD
   console.log(req.body);
   
   //console.log(req.body.genre);
+=======
+  console.log('body movie',req.body);
+>>>>>>> cabb23b6a84330e17797d074df913c11bb85f09b
   
   let {
     id_api,
@@ -43,6 +47,7 @@ exports.store = (req, res) => {
     console.log(e);
   }
 };
+<<<<<<< HEAD
 exports.edit = (req, res) => {
   console.log('hola');
   
@@ -54,10 +59,30 @@ exports.edit = (req, res) => {
     } else {
       movie = cb;
 
+=======
+exports.edit = async (req, res) => {
+>>>>>>> cabb23b6a84330e17797d074df913c11bb85f09b
      
-      res.json({ movie: movie });
+    const mov =  await service.findMovie(req.params.id)
+    let created = time();
+    if(mov){ 
+     const addMov = {
+      id_api: mov.id,
+      original_title: mov.original_title,
+      backdrop_path: mov.backdrop_path,
+      poster_path: mov.poster_path,
+      overview: mov.overview,
+      vote_average: mov.vote_average,
+      vote_count: mov.vote_count,
+      created_at: created,
+      updated_at: created
+      }
+      
+      daoMovie.createMovie(addMov,mov.genres );
+      res.status(200).json({result:'ok',message:'Pelicula agregada'})
     }
-  });
+    else {res.status(500).send('Internal Server Error')}
+    
 };
 exports.update = (req, res) => {
   let {
@@ -140,4 +165,12 @@ exports.search = async (req,res)=>{
         res.json({results:data.results})
       }
   }
+}
+
+exports.find = async(req,res)=>{
+  const id = req.params.id
+  daoMovie.getMovie(id,(err,row)=>{
+    if(err) {res.status(500).send('Internal Server Error')}
+    res.json({result:'OK',movie:row})
+  })
 }

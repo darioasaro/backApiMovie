@@ -33,13 +33,10 @@ exports.login = (req, res) => {
         
         const tk = generateToken()
         rediService.insert(tk,JSON.stringify(usRed),(err,result)=>{
-          if(err){
-                res.status(500).send('Internal Error')
+          if (err) res.status(500).send('Internal Error')
+          else{  
+          res.json({ result: true,'message':"login ok",token:tk,rol:us.id_role,id:us.id});
           }
-          
-            
-            res.json({ result: true,'message':"login ok",token:tk,rol:us.id_role,id:us.id});
-           
           
         })
       }
@@ -77,8 +74,8 @@ exports.register = (req, res) => {
       if (err) {
         res.status(500).json({'result':'Internal error'})
       }
-        res.status(201).json({ result: "ok",user:username,id:rows.insertId});
-        
+        res.status(201).json({ result: "ok" });
+      
          });
   }
 };

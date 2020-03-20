@@ -1,7 +1,9 @@
 const fetch = require("node-fetch");
 // Dado un id busca en la api la pelicula
 
-exports.findMovie = async id => {
+exports.findMovie = async (id) => {
+  
+  try{
   let response = await fetch(
     "https://api.themoviedb.org/3/movie/" +
       id +
@@ -9,8 +11,13 @@ exports.findMovie = async id => {
   );
 
   let dato = await response.json();
-
-  return dato;
+  
+   return dato
+  }
+  catch(e){
+    throw e
+  }
+  
 };
 // Devuelve todos los generos presentes en la api
 exports.getGenre = async () => {
