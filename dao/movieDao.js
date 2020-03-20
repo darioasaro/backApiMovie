@@ -27,6 +27,7 @@ exports.getMovie = (id, callback) => {
   db.connection.query(sql, [id], (err, rows) => {
     if (err) throw err;
     movie = rows;
+    console.log('rows',rows)
     return callback(err, movie);
   });
 };
@@ -45,8 +46,6 @@ exports.isExist = (id_api, callback) => {
 };
 
 exports.createMovie = (movie, generos) => {
-  //console.log('genero dao',genero);
-  
   let {
     id_api,
     original_title,
