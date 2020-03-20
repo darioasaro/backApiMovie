@@ -6,10 +6,16 @@ exports.index = (req, res) => {
   });
 };
 
-exports.store = (req, res) => {
-  console.log("body movie",req.params);
-  
-  let {
+exports.store = async (req, res) => {
+
+  var mov;
+  var genres;
+  if(req.params.id){
+     mov =  await service.findMovie(req.params.id)
+     genres = mov.genres
+  }
+ else{
+   mov =  {
     id_api,
     original_title,
     backdrop_path,
@@ -18,23 +24,25 @@ exports.store = (req, res) => {
     vote_average,
     vote_count
   } = req.body;
+  genres = req.body.genres
+}
   let created = time();
   try {
-    if (!isExistMovie(id_api)) {
+    if (!isExistMovie(mov.id_api)) {
       console.log('hola');
       
       movie1 = {
-        id_api: id_api,
-        original_title: original_title,
-        backdrop_path: backdrop_path,
-        poster_path: poster_path,
-        overview: overview,
-        vote_average: vote_average,
-        vote_count: vote_count,
+        id_api: mov.id,
+        original_title: mov.original_title,
+        backdrop_path: mov.backdrop_path,
+        poster_path: mov.poster_path,
+        overview: mov.overview,
+        vote_average: mov.vote_average,
+        vote_count: mov.vote_count,
         created_at: created,
         updated_at: created
       };
-      daoMovie.createMovie(movie1,req.body.genre );
+      daoMovie.createMovie(movie1,genres );
       res.json("Se agregó correctamente la pelicula");
     } else {
       res.status(200).json("La pelicula ya existe!!");
@@ -43,30 +51,7 @@ exports.store = (req, res) => {
     console.log(e);
   }
 };
-exports.autoStore = async (req, res) => {
-     
-    const mov =  await service.findMovie(req.params.id)
-    let created = time();
-    if(mov){ 
-     const addMov = {
-      id_api: mov.id,
-      original_title: mov.original_title,
-      backdrop_path: mov.backdrop_path,
-      poster_path: mov.poster_path,
-      overview: mov.overview,
-      vote_average: mov.vote_average,
-      vote_count: mov.vote_count,
-      created_at: created,
-      updated_at: created
-      }
-      
-      daoMovie.createMovie(addMov,mov.genres );
-      
-      res.status(200).json({result:'ok',message:'Pelicula agregada'})
-    }
-    else {res.status(500).send('Internal Server Error')}
-    
-};
+
 exports.update = (req, res) => {
   let {
     id_api,

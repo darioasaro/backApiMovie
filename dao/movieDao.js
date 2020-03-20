@@ -82,7 +82,7 @@ exports.createMovie = (movie, generos) => {
         db.connection.query(sql1, function(err, rows){ if (err) throw err;});
        
        });
-      
+      return rows
     }
   );
   
