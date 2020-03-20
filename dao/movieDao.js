@@ -33,17 +33,20 @@ exports.getMovie = (id, callback) => {
 };
 
 exports.isExist = (id_api, callback) => {
-  let sql = `SELECT * FROM movies WHERE id_api = (?) AND deleted_at IS null`;
+  let sql = `SELECT id_api FROM movies WHERE id_api = (?) AND deleted_at IS null`;
   let response;
   db.connection.query(sql, [id_api], (err, rows) => {
     if (err) {
       console.log("err", err);
       err;
     }
-    console.log('daomovie',rows);
+    //console.log('daomovie',rows);
+    if (rows.length === 1) {
+      return callback(err, true)
+    }else{
+      return callback(err, false)
+    }
     
-    response = rows;
-    return callback(err, response);
   });
 };
 

@@ -59,8 +59,18 @@ exports.autoStore = async (req, res) => {
       created_at: created,
       updated_at: created
       }
+      daoMovie.isExist(addMov.id_api, (err, result) => {
+        console.log("function", result);
+        if (result) return res.json("la pelicula ya existe")
+
+        //guardar pelicula
+        daoMovie.createMovie(addMov,mov.genres );
+
+
+
+      })
+
       
-      daoMovie.createMovie(addMov,mov.genres );
       
       res.status(200).json({result:'ok',message:'Pelicula agregada'})
     }
@@ -105,26 +115,31 @@ exports.delete = (req, res) => {
   }
 };
 
-isExistMovie = (id_api, res) => {
-  console.log('api',id_api);
-  
+isExistMovie = async (id_api, res) => {
   let exist = false;
   let movie;
-  daoMovie.isExist(id_api, (err, cb) => {
+  let variable = await daoMovie.isExist(id_api, (err, result) => {
     if (err) {
-      res.status(500).json({ result: false, menssage: "internal error" });
-    } else {
-      movie = cb;
-      console.log('moive',movie);
-      
+      return res.status(500).json({ result: false, menssage: "internal error" });
     }
+    console.log(result);
+    
+    if(movie.length!=0){
+      if (movie[0].id_api === id_api) {
+        console.log('existe');
+        exist = true;        
+        //return exist
+      }
+    }
+    else {
+      console.log(' no existe');
+      //return exist
+    }
+    //return exist
+    console.log('variable',variable);
   });
-  if (movie) {
-    exist = true;
-    return exist;
-  } else {
-    return exist;
-  }
+  
+  return variable
 };
 
 time = () => {
