@@ -7,7 +7,7 @@ exports.index = (req, res) => {
 };
 
 exports.store = (req, res) => {
-  console.log('body movie',req.body);
+  console.log("body movie",req.params);
   
   let {
     id_api,
@@ -43,7 +43,7 @@ exports.store = (req, res) => {
     console.log(e);
   }
 };
-exports.edit = async (req, res) => {
+exports.autoStore = async (req, res) => {
      
     const mov =  await service.findMovie(req.params.id)
     let created = time();
@@ -61,6 +61,7 @@ exports.edit = async (req, res) => {
       }
       
       daoMovie.createMovie(addMov,mov.genres );
+      
       res.status(200).json({result:'ok',message:'Pelicula agregada'})
     }
     else {res.status(500).send('Internal Server Error')}
