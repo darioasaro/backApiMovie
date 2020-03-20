@@ -45,8 +45,6 @@ exports.isExist = (id_api, callback) => {
 };
 
 exports.createMovie = (movie, generos) => {
-  //console.log('genero dao',genero);
-  
   let {
     id_api,
     original_title,
