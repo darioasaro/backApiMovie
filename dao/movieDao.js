@@ -40,6 +40,8 @@ exports.isExist = (id_api, callback) => {
       console.log("err", err);
       err;
     }
+    console.log('daomovie',rows);
+    
     response = rows;
     return callback(err, response);
   });

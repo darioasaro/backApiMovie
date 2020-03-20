@@ -7,13 +7,7 @@ exports.index = (req, res) => {
 };
 
 exports.store = (req, res) => {
-<<<<<<< HEAD
-  console.log(req.body);
-  
-  //console.log(req.body.genre);
-=======
   console.log('body movie',req.body);
->>>>>>> cabb23b6a84330e17797d074df913c11bb85f09b
   
   let {
     id_api,
@@ -27,6 +21,8 @@ exports.store = (req, res) => {
   let created = time();
   try {
     if (!isExistMovie(id_api)) {
+      console.log('hola');
+      
       movie1 = {
         id_api: id_api,
         original_title: original_title,
@@ -47,21 +43,7 @@ exports.store = (req, res) => {
     console.log(e);
   }
 };
-<<<<<<< HEAD
-exports.edit = (req, res) => {
-  console.log('hola');
-  
-  let movie;
-  
-  daoMovie.getMovie(req.params.id, (err, cb) => {
-    if (err) {
-      res.status(500).json({ result: false, menssage: "internal error" });
-    } else {
-      movie = cb;
-
-=======
 exports.edit = async (req, res) => {
->>>>>>> cabb23b6a84330e17797d074df913c11bb85f09b
      
     const mov =  await service.findMovie(req.params.id)
     let created = time();
@@ -123,6 +105,8 @@ exports.delete = (req, res) => {
 };
 
 isExistMovie = (id_api, res) => {
+  console.log('api',id_api);
+  
   let exist = false;
   let movie;
   daoMovie.isExist(id_api, (err, cb) => {
@@ -130,6 +114,8 @@ isExistMovie = (id_api, res) => {
       res.status(500).json({ result: false, menssage: "internal error" });
     } else {
       movie = cb;
+      console.log('moive',movie);
+      
     }
   });
   if (movie) {
