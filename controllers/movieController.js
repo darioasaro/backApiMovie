@@ -146,3 +146,11 @@ exports.search = async (req,res)=>{
       }
   }
 }
+
+exports.find = async(req,res)=>{
+  const id = req.params.id
+  daoMovie.getMovie(id,(err,row)=>{
+    if(err) {res.status(500).send('Internal Server Error')}
+    res.json({result:'OK',movie:row})
+  })
+}

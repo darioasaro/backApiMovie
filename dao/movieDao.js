@@ -27,6 +27,7 @@ exports.getMovie = (id, callback) => {
   db.connection.query(sql, [id], (err, rows) => {
     if (err) throw err;
     movie = rows;
+    console.log('rows',rows)
     return callback(err, movie);
   });
 };
