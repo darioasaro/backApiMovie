@@ -2,9 +2,9 @@ const mysql = require("mysql");
 
 var connection = mysql.createConnection({
   host: process.env.DB_HOST,
-  user: process.env.DB_USER || "dario",
-  password: process.env.DB_PASSWORD || "1234",
-  database: process.env.DB_NAME || "apibackmovie"
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD || "password",
+  database: process.env.DB_NAME || "users"
 });
 
 connection.connect(err => {

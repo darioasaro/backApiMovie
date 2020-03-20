@@ -1,20 +1,5 @@
 const daoUser = require("../dao/userDao.js");
 
-isExistUser = id => {
-  let exist = false;
-  let user = daoUser.isExist(id, (err, resp) => {
-    if (resp) {
-      console.log("resp", resp);
-      if (Array.isArray(resp) && resp.length > 0) exist = true;
-      else exist = false;
-      console.log(exist);
-
-      return exist;
-    }
-    return exist;
-  });
-};
-
 exports.index = (req, res) => {
   daoUser.getAll((err, users) => {
     res.json({ users: users });
@@ -68,36 +53,36 @@ exports.update = (req, res) => {
   }
 };
 exports.store = (req, res) => {
-  let {userName, password,created_at,updated_at, deleted_at, id_role } = req.body;
+  let {
+    name,
+    password,
+    created_at,
+    updated_at,
+    deleted_at,
+    id_role
+  } = req.body;
 
   let created = time();
-  try {
-    let user = {
-      userName: userName,
-      password: password,
-      created_at: created,
-      updated_at: updated_at,
-      deleted_at: deleted_at,
-      id_role: id_role
-    };
-    daoUser.createUser(user,(err,response)=>{
-      if(err){
-        res.status(500).json({ result: false, message: "internal error" })
-      }
-      else{
-        console.log("created",response);
-        res.json({"created":response})
-        
-      }
-    });
-    
-  } catch (e) {
-    console.log(e);
-  }
+  let resultado = daoUser.isExist(name, (err, response) => {
+    console.log("resultado", response);
+    if (response) {
+      res.status(500).json({ message: "username already in use" });
+    } else {
+      let user = {
+        name: name,
+        password: password,
+        created_at: created,
+        updated_at: updated_at,
+        deleted_at: deleted_at,
+        id_role: id_role
+      };
+      daoUser.createUser(user);
+      res.status(200).json({ message: "user created" });
+    }
+  });
 };
 
 exports.delete = (req, res) => {
-  
   try {
     let { id, userName, password, deleted_at, id_role } = req.body;
     let deleted = time();
@@ -109,16 +94,14 @@ exports.delete = (req, res) => {
       deleted_at: deleted_at,
       id_role: id_role
     };
-    daoUser.deleteUser(user, (err,response) => {
-      if(err){
+    daoUser.deleteUser(user, (err, response) => {
+      if (err) {
         res.status(500).json({ result: false, message: "internal error" });
+      } else {
+        console.log("deleted", response);
+        res.json({ deleted: response });
       }
-      else{
-        console.log("deleted",response);
-        res.json({"deleted":response})
-        
-      }
-    })
+    });
   } catch (e) {
     console.log(e);
   }
