@@ -21,6 +21,8 @@ exports.store = (req, res) => {
   let created = time();
   try {
     if (!isExistMovie(id_api)) {
+      console.log('hola');
+      
       movie1 = {
         id_api: id_api,
         original_title: original_title,
@@ -103,6 +105,8 @@ exports.delete = (req, res) => {
 };
 
 isExistMovie = (id_api, res) => {
+  console.log('api',id_api);
+  
   let exist = false;
   let movie;
   daoMovie.isExist(id_api, (err, cb) => {
@@ -110,6 +114,8 @@ isExistMovie = (id_api, res) => {
       res.status(500).json({ result: false, menssage: "internal error" });
     } else {
       movie = cb;
+      console.log('moive',movie);
+      
     }
   });
   if (movie) {
