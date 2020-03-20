@@ -7,7 +7,7 @@ router.get('/', movieController.index  )
 router.get('/:movie',secure.admin,movieController.search)
 router.get('/find/:id',movieController.find)
 router.post('/', secure.admin,movieController.store )
-router.get('/list/:id', movieController.edit )
+router.post('/list/:id', movieController.autoStore )
 router.delete('/:id', secure.admin,movieController.delete )
 router.patch('/:id', secure.admin,movieController.update )
 
